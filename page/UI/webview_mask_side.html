@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			* {
+				font-family: "微软雅黑";
+			}
+			
+			.mui-switch.mui-active:before {
+				content: '是';
+			}
+			
+			.mui-switch:before {
+				content: '否';
+				color: #FFFFFF;
+			}
+			
+			.mui-switch {
+				background-color: #FF5053;
+				border: 1px solid #FF5053;
+				margin-bottom: 5px;
+			}
+			
+			.free {
+				display: inline-block;
+				margin-top: 4px;
+			}
+			
+			.mui-btn {
+				font-size: 16px;
+				padding: 0px;
+				width: 100px;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			
+			.mui-ellipsis {
+				font-size: 15px;
+			}
+			
+			.Add {
+				text-align: center;
+			}
+			
+			.pd {
+				padding-top: 10px;
+				padding-bottom: 5px;
+			}
+			
+			.free1 {
+				display: inline-block;
+				float: right;
+				color: #4CD964
+			}
+			
+			.free0 {
+				display: inline-block;
+				float: right;
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">今日提醒</h1>
+		</header>
+		<div class="mui-content">
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<p class='mui-ellipsis'>提醒复查痰(左滑删除)</p>
+					</div>
+				</li>
+			</ul>
+			<ul id="OA_task_1" class="mui-table-view">
+				<!--<li class="mui-table-view-cell mui-media">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<span id="">2016-01-30</span>
+						<span id="">星期六</span>
+						<span id="">12:00</span>
+						<span id="">--------</span>
+						<span id="">16:01</span>
+					</div>
+				</li>-->
+			</ul>
+			<br />
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<p class='mui-ellipsis'>提醒服药(左滑删除)</p>
+					</div>
+				</li>
+			</ul>
+			<ul id="OA_task_2" class="mui-table-view">
+			</ul>
+			<br />
+		</div>
+
+		<div id='result' class="ui-alert"></div>
+	</body>
+
+	<!--日程保存至数据库中-->
+	<script>
+		db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+		db.transaction(function(context) {
+			//添加的查痰记录
+		//	console.log(localStorage.startdate);
+		//	console.log(localStorage.enddate);
+			context.executeSql('SELECT * FROM remindTable where ((start>=? and end<=?) or (start<=? and end>=?)) and patientId=? and type=?', [localStorage.startdate, localStorage.enddate, localStorage.enddate, localStorage.enddate, localStorage.patientId,'查痰'], function(context, results) {
+				var len = results.rows.length,
+					i;
+				//console.log('Got ' + len + ' rows.');
+				var ctUl = document.getElementById('OA_task_1');
+				var str = '';
+				for(i = 0; i < len; i++) {
+					str += "<li class=\"mui-table-view-cell mui-media\" id=\"" + results.rows.item(i).id + "\"><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><span>" + results.rows.item(i).start + "</span><span>---</span><span>" + results.rows.item(i).end + "</span></div></li>";
+				}
+				ctUl.innerHTML = str;
+			});
+			//添加的复查记录
+			context.executeSql('SELECT * FROM remindTable where ((start>=? and end<=?) or (start<=? and end>=?)) and patientId=? and type=?', [localStorage.startdate, localStorage.enddate, localStorage.enddate, localStorage.enddate, localStorage.patientId,'服药'], function(context, results) {
+				var len = results.rows.length,
+					i;
+				
+				var ctUl = document.getElementById('OA_task_2');
+				var str = '';
+				for(i = 0; i < len; i++) {
+					str += "<li class=\"mui-table-view-cell mui-media\" id=\"" + results.rows.item(i).id + "\"><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><span>" + results.rows.item(i).start + "</span><span>---</span><span>" + results.rows.item(i).end + "</span></div></li>";
+				}
+				ctUl.innerHTML = str;
+			});
+		});
+
+		
+	</script>
+<script>
+		mui.init();
+		(function($) {
+			//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+			$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				var id = li.id;
+				mui.confirm('确认删除该条记录？', '确认删除', btnArray, function(e) {
+					/*----------------------*/
+					//删除
+					var db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+					db.transaction(function(context) {
+						context.executeSql('delete from remindTable where id=?', [parseInt(id)], function(context, results) {
+								if(e.index == 0) {
+									li.parentNode.removeChild(li);
+								} else {
+									setTimeout(function() {
+										$.swipeoutClose(li);
+									}, 0);
+								}
+							},
+							function(tx, error) {
+								console.log("删除数据失败，错误信息" + error.message);
+							}
+						);
+					});
+
+					/*----------------------*/
+
+				});
+			});
+			var btnArray = ['确认', '取消'];
+		})(mui);
+	</script>
+	<script>
+		mui.init();
+		(function($) {
+			//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+			$('#OA_task_2').on('tap', '.mui-btn', function(event) {
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				var id = li.id;
+				mui.confirm('确认删除该条记录？', '确认删除', btnArray, function(e) {
+					/*----------------------*/
+					//删除
+					var db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+					db.transaction(function(context) {
+						context.executeSql('delete from remindTable where id=?', [parseInt(id)], function(context, results) {
+								if(e.index == 0) {
+									li.parentNode.removeChild(li);
+								} else {
+									setTimeout(function() {
+										$.swipeoutClose(li);
+									}, 0);
+								}
+							},
+							function(tx, error) {
+								console.log("删除数据失败，错误信息" + error.message);
+							}
+						);
+					});
+
+					/*----------------------*/
+
+				});
+			});
+			var btnArray = ['确认', '取消'];
+		})(mui);
+	</script>
+</html>

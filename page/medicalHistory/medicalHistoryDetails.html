@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style>
+			.mui-ellipsis {
+				color: #6D6D72;
+			}
+			
+			.touxiang {
+				border-radius: 40px;
+			}
+			
+			.DoctorDetails_name {
+				font-size: 17px;
+				display: block;
+				padding-top: 5px;
+			}
+			
+			.DoctorDetails_title1 {
+				font-size: 14px;
+				display: block;
+				color: #8f8f94;
+				margin-top: 5px;
+			}
+			
+			.DoctorDetails_title2 {
+				font-size: 13px;
+				display: inline-block;
+				color: #8f8f94;
+				margin-top: 3px;
+				border: 1px solid #6D6D72;
+				border-radius: 15px;
+				padding-left: 1px;
+				padding-right: 1px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详情</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 10px;">
+				<li class="mui-table-view-cell mui-media" id="name">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis' id="yuyueTime">创建时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+						</div>
+				</li>
+				<li class="mui-table-view-cell mui-media" id="sex">
+					
+						<div class="mui-media-body">
+							<p class='mui-ellipsis' id="time">修改时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+						</div>
+					
+				</li>
+				<li class="mui-table-view-cell mui-media" id="phone">
+				
+						<div class="mui-media-body">
+							<p class='mui-ellipsis' id="doctor">医生：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+						</div>
+					
+				</li>
+				<li class="mui-table-view-cell mui-media" id="phone">
+				
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>病例：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+							<h5 id="chufang"></h5>
+						</div>
+					
+				</li>
+				
+			</ul>
+	</div>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				document.getElementById("yuyueTime").innerHTML ="创建时间："+ self.createDate;
+				document.getElementById("time").innerHTML = "修改时间："+self.modifyDate;
+				document.getElementById("doctor").innerHTML = "开方医生："+self.doctor;
+				document.getElementById("chufang").innerHTML = self.medicalHistoryContent;
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			.img2 {
+				max-width: 100%;
+				margin-top: 7px;
+			}
+			
+			.main-doctor {
+				font-size: 13px;
+				line-height: 23px;
+				color: #8f8f94;
+			}
+			
+			.touxiang {
+				border-radius: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的病例</h1>
+		</header>
+		<div class="mui-content" id="pullrefresh">
+
+			<ul class="mui-table-view" id="listUI">
+				
+				
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script type="text/javascript">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+
+			}
+			var id = localStorage.patientId;
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					++count;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui.ajax(ajaxUrl + '/patientAPP/medicalHistory_getMedicalHistory_APP.action?id=' + id +'&flag=' + count, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						success: function(data) {
+							if(data.length == 0) //数据为空时什么都不执行  
+							{
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //没有数据阻止访问服务器
+								plus.nativeUI.toast("没有更多数据了！", {
+									duration: "short"
+								});
+							} else {
+								var str="";
+								for(var n = 0; n < data.length; n++) {
+									str+="<li class=\"mui-table-view-cell mui-media\" onclick=\"details('"+data[n][0]+"','"+data[n][1]+"','"+data[n][2]+"','"+data[n][3]+"')\">" +
+"						<div class=\"mui-media-body\">" +
+"							<span class=\"AllDoctor_title\">创建时间：</span>" +
+"							<span class=\"AllDoctor_state_online\">"+data[n][0]+"</span>" +
+"							<br />" +
+"							<span class=\"AllDoctor_title\">修改时间：</span>" +
+"							<span class=\"AllDoctor_state_online\">"+data[n][1]+"</span>" +
+"							<br />" +
+"							<span class=\"AllDoctor_title\">医生：</span>" +
+"							<span class=\"AllDoctor_state_online\">"+data[n][3]+"</span>" +
+"							<br />" +
+"						</div>" +
+"				</li>";
+								}
+								document.getElementById("listUI").innerHTML=document.getElementById("listUI").innerHTML+str;
+							}
+						}
+					});
+				}, 1500);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			function details(createDate,modifyDate,medicalHistoryContent,doctor){
+				mui.openWindow({
+					url: 'medicalHistoryDetails.html',
+					id: 'medicalHistoryDetails.html',
+					extras: {
+						createDate:createDate,
+						modifyDate:modifyDate,
+						medicalHistoryContent:medicalHistoryContent,
+						doctor:doctor,
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

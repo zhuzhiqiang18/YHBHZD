@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/calendar.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.gd {
+				overflow: hidden;
+				background-color: rgb(244, 102, 59);
+				color: #FFFFFF;
+				font-size: 14px;
+			}
+			
+			.gd table tr td pre {
+				margin: 0;
+				padding-top: 2px;
+				padding-bottom: 2px;
+			}
+		</style>
+		<script src="../../js/calendar.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script>
+			mui.init();
+			/*侧滑start*/
+			var ws = null,
+				wc = null;
+			// 扩展API加载完毕，现在可以正常调用扩展API 
+			function plusReady() {
+				ws = plus.webview.currentWebview();
+				// 用户点击后
+				ws.addEventListener("maskClick", function() {
+					wc.close("auto");
+				}, false);
+			}
+			// 判断扩展API是否准备，否则监听"plusready"事件
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// 显示侧滑页面
+			function showSide() {
+				// 防止快速点击可能导致多次创建
+				if(wc) {
+					return;
+				}
+				// 开启遮罩
+				ws.setStyle({
+					mask: "rgba(0,0,0,0.5)"
+				});
+				// 创建侧滑页面
+				wc = plus.webview.create("webview_mask_side.html", "side", {
+					left: "30%",
+					width: "70%",
+					popGesture: "none"
+				});
+				// 侧滑页面关闭后关闭遮罩
+				wc.addEventListener('close', function() {
+					ws.setStyle({
+						mask: "none"
+					});
+					wc = null;
+				}, false);
+				// 侧滑页面加载后显示（避免白屏）
+				wc.addEventListener("loaded", function() {
+					wc.show("slide-in-right", 200);
+				}, false);
+			}
+			/*侧滑end*/
+		</script>
+	</head>
+
+	<body id="pullrefresh">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-camera mui-pull-left menua" onclick="clicked('barcode_scan.html',true,true);"></a>
+			<a class="mui-icon mui-icon-plus mui-pull-right adda" id="myDate"></a>
+			<h1 class="mui-title">结核病患者端</h1>
+		</header>
+		<div class="mui-content">
+			<!--滚动字幕Start-->
+			<div id='gd' class="gd" hidden="hidden">
+				<table>
+					<tr>
+						<td id='marquePic1'>
+							<pre id="pre"></pre>
+						</td>
+						<td id='marquePic2'>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			/*日历*/
+			var cld = new Calendar({
+				el: '#box',
+				value: new Date(), // 默认为new Date();
+				fn: function(obj) {
+					var month = obj.month >= 10 ? obj.month : '0' + obj.month;
+					var day = obj.day >= 10 ? obj.day : '0' + obj.day;
+					var startdate = obj.year + '-' + month + '-' + day + ' 00:00';
+					var enddate = obj.year + '-' + month + '-' + day + ' 23:59';
+					localStorage.startdate = startdate;
+					localStorage.enddate = enddate;
+					showSide();
+				}
+			})
+			mui.plusReady(function() {
+				/*日期格式化*/
+				Date.prototype.Format = function(fmt) { //author: meizz 
+						var o = {
+							"M+": this.getMonth() + 1, //月份 
+							"d+": this.getDate(), //日 
+							"h+": this.getHours(), //小时 
+							"m+": this.getMinutes(), //分 
+							"s+": this.getSeconds(), //秒 
+							"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+							"S": this.getMilliseconds() //毫秒 
+						};
+						if(/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+						for(var k in o)
+							if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						return fmt;
+					}
+					/*查询本地数据量*/
+				db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+				db.transaction(function(context) {
+					var startdate = new Date().Format("yyyy-MM-dd") + ' 00:00';
+					var enddate = new Date().Format("yyyy-MM-dd") + ' 23:59';
+					context.executeSql('SELECT * FROM remindTable where ((start>=? and end<=?) or (start<=? and end>=?)) and patientId=?', [startdate, enddate, enddate, enddate, localStorage.patientId], function(context, results) {
+							var len = results.rows.length,
+								i;
+							//console.log('今日事件个数' + len);
+							var str = '';
+							for(i = 0; i < len; i++) {
+								str += results.rows.item(i).start + '---' + results.rows.item(i).end + '---' + results.rows.item(i).type + '    ';
+							}
+							if(len > 0) {
+								//本地消息提醒
+								createLocalPushMsg();
+								var gd = document.getElementById("gd");
+								gd.hidden = '';
+								document.getElementById("pre").innerHTML = str;
+							}
+						},
+						function(context, error) {
+							console.log(error.message);
+						}
+
+					);
+
+				});
+
+				var speed = 50;
+				marquePic2.innerHTML = marquePic1.innerHTML;
+
+				function Marquee() {
+					if(gd.scrollLeft >= marquePic1.scrollWidth) {
+						gd.scrollLeft = 0;
+					} else {
+						gd.scrollLeft++;
+					}
+				}
+				var MyMar = setInterval(Marquee, speed)
+				gd.onmouseover = function() {
+					clearInterval(MyMar);
+				}
+				gd.onmouseout = function() {
+						MyMar = setInterval(Marquee, speed);
+					}
+					/*本地消息推送*/
+				function createLocalPushMsg() {
+					var options = {
+						cover: false
+					};
+					var str = dateToStr(new Date());
+					str += ": 今天有事件提醒！";
+					plus.push.createMessage(str, "LocalMSG", options);
+				}
+			});
+			/*上传用户登录位置*/
+			mui.plusReady(function() {
+				/*点击消息*/
+				plus.push.addEventListener( "receive", function( msg ) {
+					//alert("进入receive");
+					var data = JSON.parse(msg.payload);
+					if(data.type=='0'){
+					mui.openWindow({
+						url:'../Other/push.html',
+						id:'push.html',
+						extras: {
+									title:data.title,
+									content:data.content
+								}
+					});	
+					}else{
+						//聊天
+						//alert(JSON.stringify(data));
+					localStorage.DID=data.id;
+					localStorage.DNAME=data.doctorName;
+					localStorage.DImgPath=data.pathImg;
+						mui.openWindow({
+						url:'../doctor/ChatDetail.html',
+						id:'ChatDetail.html'
+					});	
+						
+					}
+					
+					
+				});
+                plus.push.addEventListener( "click", function( msg ) {
+                	//alert("进入receive");
+					var data = JSON.parse(msg.payload);
+					if(data.type=='0'){
+					mui.openWindow({
+						url:'../Other/push.html',
+						id:'push.html',
+						extras: {
+									title:data.title,
+									content:data.content
+								}
+					});	
+					}else{
+						//聊天
+					localStorage.DID=data.id;
+					localStorage.DNAME=data.doctorName;
+					localStorage.DImgPath=pathImg;
+						mui.openWindow({
+						url:'../doctor/ChatDetail.html',
+						id:'push.html'
+					});	
+						
+					}
+                });
+				/*获取用户CID*/
+					var info = plus.push.getClientInfo();
+					//outLine("clientid: " + info.clientid);
+/*				 console.log(info.clientid);*/
+				
+
+				function getGeocode() {
+					plus.geolocation.getCurrentPosition(function geoInf(position) {
+
+						location_ = position.addresses; //获取地址信息
+						var codns = position.coords; //获取地理坐标信息；
+						latitude_ = codns.latitude; //获取到当前位置的纬度；
+						longitude_ = codns.longitude; //获取到当前位置的经度
+						/**
+						 * 社康导航 wifi下无法获取当前位置
+						 * Bug解决方案
+						 * 把当前位置保存，供后面调用
+						 * 进入系统保存经纬度 供后面使用
+						 */
+						localStorage.longitude=longitude_;
+						localStorage.latitude=latitude_;
+						localStorage.address=location_;
+						console.log(localStorage.address);
+					
+						mui.ajax(ajaxUrl + '/patientAPP/patientAPP_updatLoginAddress.action?id=' + localStorage.patientId + '&longitude=' + codns.longitude + '&latitude=' + codns.latitude + '&address=' + location_+'&cid=' + info.clientid, {
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							success: function(data) {}
+						});
+					}, function(e) {
+						console.log('地址' + location_);
+
+					}, {
+						geocode: true,
+						provider: 'baidu'
+					});
+				}
+				getGeocode();
+
+			});
+			/*上传地理位置*/
+
+			document.getElementById('myDate').addEventListener('tap', function() {
+				//打开关于页面
+				mui.openWindow({
+					url: 'MyClinic-Date.html',
+					id: 'myDate',
+				});
+			});
+		</script>
+	</body>
+
+</html>

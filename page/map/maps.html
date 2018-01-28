@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="HandheldFriendly" content="true"/>
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			
+			#done.mui-disabled {
+				color: gray;
+			}
+		</style>
+	</head>
+	<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.indexedlist.js"></script>
+		<script type="text/javascript">
+		mui.init();
+		var liArray = [].slice.call(document.querySelectorAll(".mui-table-view li"));
+			var list = document.getElementById('list');
+			var header = document.querySelector('header.mui-bar');
+			mui.ready(function() {
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+		var liArray =[].slice.call(document.querySelectorAll(".mui-table-view li"));
+			<!--所有社康-->
+			mui.ajax(ajaxUrl + '/patientAPP/appChsc_getCHSCMap.action', {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					if(data.length == 0) //数据为空时什么都不执行  
+					{
+
+					} else {
+						var table = document.body.querySelector('.mui-table-view');
+						for(var i = 0; i < data.length; i++) {
+							var li = document.createElement('li');
+							li.setAttribute("class", "mui-table-view-cell mui-indexed-list-item");
+							li.setAttribute("onclick", "getGeocode(" + data[i][2] + "," + data[i][3] + ",'" + data[i][1] + "')");
+							li.innerHTML = data[i][0];
+							table.appendChild(li);
+						}
+						mui("#list").indexedList().findElements();
+					}
+				}
+			});
+			
+			
+			function getGeocode(jing_, wei_, chsc_) {
+				var dst = new plus.maps.Point(jing_, wei_); // 天安门 
+				var src = new plus.maps.Point(localStorage.longitude, localStorage.latitude); // 我的位置
+				plus.maps.openSysMap(dst, chsc_, src);
+				/*console.log("不运行");
+				plus.geolocation.getCurrentPosition(function geoInf(position) {
+					var location_ = position.addresses; 
+					var codns = position.coords; //获取地理坐标信息；
+					var lat = codns.latitude; //获取到当前位置的纬度；
+					var longt = codns.longitude; //获取到当前位置的经度
+					var dst = new plus.maps.Point(jing_, wei_); // 天安门 
+					var src = new plus.maps.Point(longt, lat); // 我的位置
+					// 调用系统地图显示
+					plus.maps.openSysMap(dst, chsc_, src);
+				}, function(e) {
+					console.log("失败");
+				}, {
+					geocode: true,
+					provider: 'baidu'
+				});*/
+			}
+
+			/*start*/
+			
+			/*end*/
+			/*内置地图*/
+			function showMaps() {
+				if('Android' === plus.os.name && navigator.userAgent.indexOf('StreamApp') > 0) {
+					plus.nativeUI.toast('当前环境暂不支持地图插件');
+					return;
+				}
+				var ws = plus.webview.currentWebview();
+				var wm = plus.webview.getWebviewById(plus.runtime.appid);
+				wm && wm.evalJS("preateClear()");
+				clicked('maps_map.html', false, true);
+			}	
+		
+			
+		</script>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+
+			<h1 class="mui-title">社康</h1>
+			<a class="mui-icon mui-pull-right mui-icon-map" onclick="showMaps();"></a>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索社康">
+				</div>
+				<div class="mui-indexed-list-bar" style="display:none;">
+
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<!--下拉刷新容器-->
+					<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+						<div class="mui-scroll" id="scrollContainer">
+							<ul class="mui-table-view" style="margin-top:35px;">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<script type="text/javascript" charset="utf-8">
+			
+		</script>
+		
+	</body>
+
+</html>

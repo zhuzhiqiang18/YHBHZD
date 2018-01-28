@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style>
+			.mui-ellipsis {
+				color: #6D6D72;
+			}
+			
+			.touxiang {
+				border-radius: 40px;
+			}
+			
+			.DoctorDetails_name {
+				font-size: 17px;
+				display: block;
+				padding-top: 5px;
+			}
+			
+			.DoctorDetails_title1 {
+				font-size: 14px;
+				display: block;
+				color: #8f8f94;
+				margin-top: 5px;
+			}
+			
+			.DoctorDetails_title2 {
+				font-size: 13px;
+				display: inline-block;
+				color: #8f8f94;
+				margin-top: 3px;
+				border: 1px solid #6D6D72;
+				border-radius: 15px;
+				padding-left: 1px;
+				padding-right: 1px;
+			}
+			
+			.mui-switch.mui-active:before{content: '可见';}
+			.mui-switch:before{content: '隐藏';color: #FFFFFF;}
+			.mui-switch{background-color: #FF5053;border: 1px solid #FF5053;}
+			#ipt{border: 0;margin: 0;padding: 0;height: 21px;}
+		
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+			<h1 class="mui-title">个人中心</h1>
+		</header>
+		<div class="mui-content" id="pullrefresh">
+			<ul class="mui-table-view mui-table-view-chevron" style="margin: 0;">
+				<li class="mui-table-view-cell mui-media" style="height: 130px;padding-top: 20px;" onclick="clicked('Myself-details.html',true);">
+					<a class="mui-navigate-right">
+						<img class="mui-media-object mui-pull-left touxiang" src="../../images/cbd.jpg" style="height: 80px;max-width:80px;" id="imgPath">
+						<div class="mui-media-body">
+							<span class="DoctorDetails_name" id="username"></span>
+							<span class="DoctorDetails_title1" id="usercode"></span>
+						</div>
+					</a>
+				</li>
+			</ul>
+
+			<!--<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right" id="Myself-Money">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>730个健康点，4个未完成任务</p>
+						</div>
+					</a>
+				</li>
+			</ul>-->
+			<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 10px;">
+				<li class="mui-table-view-cell mui-media" id="MedicalRecords">
+					<a class="mui-navigate-right" >
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>就诊记录</p>
+						</div>
+					</a>
+				</li>
+				<!--<li class="mui-table-view-cell mui-media" id="MyArchives">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>化验单</p>
+						</div>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell mui-media" id="HealhyCenter-Myself">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>复查记录</p>
+						</div>
+					</a>
+				</li>-->
+				<li class="mui-table-view-cell mui-media" id="sputumExamination">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>复查痰记录</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media" id="takeMedicine">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>服药记录</p>
+						</div>
+					</a>
+				</li>
+				
+				<li class="mui-table-view-cell mui-media" id="medicalHistory">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>电子病历</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view mui-table-view-chevron" >
+				<li class="mui-table-view-cell mui-media">
+					<a href="#">
+							<span class="AskPerson"></span>
+							<div class="mui-switch" id="kg">
+								<div class="mui-switch-handle"></div>
+							</div>
+					</a>
+				</li>
+			</ul>
+
+			</ul>
+		</div>
+		<div class="mui-content-padded">
+			<a id='outLogin' class="mui-btn mui-btn-block mui-btn-danger" onclick="reLogin();">退出登录</a>
+		</div>
+		<script type="text/javascript">
+		if(localStorage.myData=='false'){
+			document.getElementById("kg").setAttribute("class","mui-switch");
+		}else{
+			document.getElementById("kg").setAttribute("class","mui-switch mui-active");
+		}
+		mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+				//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+				
+				this.parentNode.querySelector('span').innerText = '资料：' + (this.classList.contains('mui-active') ? '可见' : '隐藏');
+				/**
+				 * toggle 事件监听
+				 */
+				this.addEventListener('toggle', function(event) {
+					//event.detail.isActive 可直接获取当前状态
+					var state=event.detail.isActive;
+					this.parentNode.querySelector('span').innerText = '资料：' + (event.detail.isActive ? '可见' : '隐藏');
+					mui.ajax(ajaxUrl + '/patientAPP/patientAPP_updateIsMyDate.action?state=' + state + '&id=' + localStorage.patientId, {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					
+				}
+				
+			});
+					
+				});
+			});
+			document.getElementById('takeMedicine').addEventListener('tap', function() {
+				//打开关于页面
+				mui.openWindow({
+					url: '../takeMedicine/List.html',
+					id: 'List.html',
+				});
+			});
+			document.getElementById('sputumExamination').addEventListener('tap', function() {
+				//打开关于页面
+				mui.openWindow({
+					url: '../sputumExamination/List.html',
+					id: 'HealthyTest',
+				});
+			});
+
+			document.getElementById('medicalHistory').addEventListener('tap', function() {
+				//打开关于页面
+				mui.openWindow({
+					url: '../medicalHistory/medicalHistory.html',
+					id: 'medicalHistory.html',
+				});
+			});
+			document.getElementById('MedicalRecords').addEventListener('tap', function() {
+			  					 //打开关于页面
+			 			 		mui.openWindow({
+			    				url: '../MedicalRecords/List.html', 
+			    				id:'List.html',
+			  				});
+						});
+						/*document.getElementById('HealhyCenter-Myself').addEventListener('tap', function() {
+			  					 //打开关于页面
+			 			 		mui.openWindow({
+			    				url: '../HealthyCircle/HealhyCircle-Myself.html', 
+			    				id:'HealhyCenter-Myself',
+			  				});
+						});
+						document.getElementById('HealthyCenter-MyDoctor').addEventListener('tap', function() {
+			  					 //打开关于页面
+			 			 		mui.openWindow({
+			    				url: '../HealthyCenter/HealthyCenter-MyDoctor.html', 
+			    				id:'HealthyCenter-MyDoctor',
+			  				});
+						});
+						document.getElementById('HealthyPlan').addEventListener('tap', function() {
+			  					 //打开关于页面
+			 			 		mui.openWindow({
+			    				url: '../HealthyCenter/HealthyPlan.html', 
+			    				id:'HealthyPlan',
+			  				});
+						});*/
+			/*退出登录*/
+			function reLogin() {
+				mui.openWindow({
+					url: '../Other/ReLogin.html',
+					id: 'ReLogin',
+				});
+			}
+		</script>
+
+		<!--ajax-->
+		<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script type="text/javascript">
+			document.getElementById('username').innerHTML = localStorage.patientName;
+			document.getElementById('usercode').innerHTML = localStorage.userName;
+			document.getElementById("imgPath").src = localStorage.patientImgPath;
+			/*mui.ajax(ajaxUrl+'/patientClientApp/osPatientAction_findMySelf.action?user='+localStorage.patientid,{
+				
+				dataType:'json',
+				type:'get',
+				success:function(data)
+				{
+					//用户头像
+					document.getElementById('photo').setAttribute('src','../../images/cbd.jpg');
+					document.getElementById('username').innerHTML=data[0][1];
+					document.getElementById('usercode').innerHTML=data[0][2];
+					document.getElementById('num').innerHTML=(data[0][4]+data[0][5])+'关注';
+					document.getElementById('numlabel').innerHTML=(data[0][4]);
+					document.getElementById('numdoctor').innerHTML=(data[0][5]);
+					var a=data[0][6].split('<splite key=label>');
+					if(a.length>1)
+					{
+						document.getElementById('label1').innerHTML='#'+a[0].split('|,|')[0]+'#';
+						document.getElementById('label2').innerHTML='#'+a[1].split('|,|')[0]+'#';
+					}
+					else
+					{
+						document.getElementById('label1').innerHTML='#'+data[0][6].split('|,|')[0]+'#';
+					}
+					a=data[0][7].split('<splite key=label>');
+					if(a.length>1)
+					{
+						document.getElementById('doctor1').innerHTML=a[0].split('|,|')[0];
+						document.getElementById('doctor2').innerHTML=a[1].split('|,|')[0];
+					}
+					else
+					{
+						document.getElementById('doctor1').innerHTML=data[0][6].split('|,|')[0];
+					}
+				}
+			});*/
+			function test_() {
+				console.log("OK");
+			}
+		</script>
+		<!--下拉刷新-->
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					document.getElementById('username').innerHTML = localStorage.patientName;
+					document.getElementById('usercode').innerHTML = localStorage.code;
+					document.getElementById("imgPath").src = localStorage.patientImgPath;
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 300);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					document.getElementById('username').innerHTML = localStorage.patientName;
+					document.getElementById('usercode').innerHTML = localStorage.code;
+					document.getElementById("imgPath").src = localStorage.patientImgPath;
+
+				}, 1500);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 10);
+
+				});
+			}
+		</script>
+	</body>
+
+</html>

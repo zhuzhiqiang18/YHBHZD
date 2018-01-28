@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			* {
+				font-family: "微软雅黑";
+			}
+			
+			.mui-switch.mui-active:before {
+				content: '是';
+			}
+			
+			.mui-switch:before {
+				content: '否';
+				color: #FFFFFF;
+			}
+			
+			.mui-switch {
+				background-color: #FF5053;
+				border: 1px solid #FF5053;
+				margin-bottom: 5px;
+			}
+			
+			.free {
+				display: inline-block;
+				margin-top: 4px;
+			}
+			
+			.mui-btn {
+				font-size: 16px;
+				padding: 0px;
+				width: 100px;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			
+			.mui-ellipsis {
+				font-size: 15px;
+			}
+			
+			.Add {
+				text-align: center;
+			}
+			
+			.pd {
+				padding-top: 10px;
+				padding-bottom: 5px;
+			}
+			
+			.free1 {
+				display: inline-block;
+				float: right;
+				color: #4CD964
+			}
+			
+			.free0 {
+				display: inline-block;
+				float: right;
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加提醒</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" onclick="save();">保存</button>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media pd">
+					<a href="#">
+						<div class="mui-media-body">
+							<span>提醒类型：</span>
+							<span id='result'></span>
+							<button id="demo" class="btn mui-btn mui-btn-block mui-pull-right">选择</button>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media pd">
+					<a href="#">
+						<div class="mui-media-body">
+							<span>开始提醒时间：</span>
+							<span id='result1'></span>
+							<button id='demo1' data-options='{}' class="btn mui-btn mui-btn-block mui-pull-right">选择</button>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media pd">
+					<a href="#">
+						<div class="mui-media-body">
+							<span>结束提醒时间：</span>
+							<span id='result2'></span>
+							<button id='demo2' data-options='{}' class="btn mui-btn mui-btn-block mui-pull-right">选择</button>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<br />
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<p class='mui-ellipsis'>提醒查痰(左滑删除)</p>
+					</div>
+				</li>
+			</ul>
+			<ul id="OA_task_1" class="mui-table-view">
+				<!--<li class="mui-table-view-cell mui-media">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<span id="">2016-01-30</span>
+						<span id="">星期六</span>
+						<span id="">12:00</span>
+						<span id="">--------</span>
+						<span id="">16:01</span>
+					</div>
+				</li>-->
+			</ul>
+			<br />
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						<p class='mui-ellipsis'>提醒服药(左滑删除)</p>
+					</div>
+				</li>
+			</ul>
+			<ul id="OA_task_2" class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<span id="">2016-01-30</span>
+						<span id="">星期六</span>
+						<span id="">12:00</span>
+						<span id="">--------</span>
+						<span id="">16:01</span>
+					</div>
+				</li>
+
+			</ul>
+			<br />
+		</div>
+
+		<div id='result' class="ui-alert"></div>
+	</body>
+	<script>
+		mui.init();
+		(function($) {
+			//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+			$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				var id = li.id;
+				mui.confirm('确认删除该条记录？', '确认删除', btnArray, function(e) {
+					/*----------------------*/
+					//删除
+					var db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+					db.transaction(function(context) {
+						context.executeSql('delete from remindTable where id=?', [parseInt(id)], function(context, results) {
+								if(e.index == 0) {
+									li.parentNode.removeChild(li);
+								} else {
+									setTimeout(function() {
+										$.swipeoutClose(li);
+									}, 0);
+								}
+							},
+							function(tx, error) {
+								console.log("删除数据失败，错误信息" + error.message);
+							}
+						);
+					});
+
+					/*----------------------*/
+
+				});
+			});
+			var btnArray = ['确认', '取消'];
+		})(mui);
+	</script>
+	<script>
+		mui.init();
+		(function($) {
+			//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+			$('#OA_task_2').on('tap', '.mui-btn', function(event) {
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				var id = li.id;
+				mui.confirm('确认删除该条记录？', '确认删除', btnArray, function(e) {
+					/*----------------------*/
+					//删除
+					var db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+					db.transaction(function(context) {
+						context.executeSql('delete from remindTable where id=?', [parseInt(id)], function(context, results) {
+								if(e.index == 0) {
+									li.parentNode.removeChild(li);
+								} else {
+									setTimeout(function() {
+										$.swipeoutClose(li);
+									}, 0);
+								}
+							},
+							function(tx, error) {
+								console.log("删除数据失败，错误信息" + error.message);
+							}
+						);
+					});
+
+					/*----------------------*/
+
+				});
+			});
+			var btnArray = ['确认', '取消'];
+		})(mui);
+	</script>
+	<!--日期选择-->
+	<script src="../../js/mui.picker.min.js"></script>
+	<script>
+		(function($) {
+			$.init();
+			var result = $('#result1')[0];
+			var btns = $('#demo1');
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					var picker = new $.DtPicker(options);
+					picker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母），用法同年
+						 */
+						result.innerText = rs.text;
+					});
+				}, false);
+			});
+		})(mui);
+	</script>
+	<script>
+		(function($) {
+			$.init();
+			var result = $('#result2')[0];
+			var btns = $('#demo2');
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					var picker = new $.DtPicker(options);
+					picker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母），用法同年
+						 */
+						result.innerText = rs.text;
+					});
+				}, false);
+			});
+		})(mui);
+	</script>
+	<script>
+		(function($) {
+			$.init();
+			var result = $('#result')[0];
+			var btns = $('#demo');
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					var dtpicker = new mui.PopPicker();
+					dtpicker.setData([{
+						value: '查痰',
+						text: '复查痰'
+					}, {
+						value: '服药',
+						text: '服药'
+					}]);
+					dtpicker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母），用法同年
+						 */
+						result.innerText = rs[0].value;
+					});
+				}, false);
+			});
+		})(mui);
+	</script>
+	<!--日程保存至数据库中-->
+	<script>
+		db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+		db.transaction(function(context) {
+			//添加的查痰记录
+			context.executeSql('SELECT * FROM remindTable where type=? and patientId=?', ['查痰',localStorage.patientId], function(context, results) {
+				var len = results.rows.length,
+					i;
+				//console.log('Got ' + len + ' rows.');
+				var ctUl = document.getElementById('OA_task_1');
+				var str = '';
+				for(i = 0; i < len; i++) {
+					str += "<li class=\"mui-table-view-cell mui-media\" id=\"" + results.rows.item(i).id + "\"><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><span>" + results.rows.item(i).start + "</span><span>--------</span><span>" + results.rows.item(i).end + "</span></div></li>";
+				}
+				ctUl.innerHTML = str;
+			});
+			//添加的复查记录
+			context.executeSql('SELECT * FROM remindTable where type=? and patientId=?', ['服药',localStorage.patientId], function(context, results) {
+				var len = results.rows.length,
+					i;
+				console.log('Got ' + len + ' rows.');
+				var ctUl = document.getElementById('OA_task_2');
+				var str = '';
+				for(i = 0; i < len; i++) {
+					str += "<li class=\"mui-table-view-cell mui-media\" id=\"" + results.rows.item(i).id + "\"><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><span>" + results.rows.item(i).start + "</span><span>--------</span><span>" + results.rows.item(i).end + "</span></div></li>";
+				}
+				ctUl.innerHTML = str;
+			});
+		});
+
+		function save() {
+			console.log("保存日程");
+			/**
+			 * 打开数据库
+			 */
+			db.transaction(function(context) {
+				/**
+				 * 判断数据了是否存在 不存在则创建
+				 */
+				context.executeSql('CREATE TABLE IF NOT EXISTS remindTable (id unique, start,end,type,patientId)', [], function(tx, result) {
+						//alert('创建remindTable表成功');
+					},
+					function(tx, error) {
+						//	alert('创建remindTable表失败:' + error.message);
+					});
+				//获取提醒日程属性
+				var type = document.getElementById('result').innerHTML
+				var start = document.getElementById('result1').innerHTML
+				var end = document.getElementById('result2').innerHTML
+					//主键
+				var id = null;
+				/**
+				 * 查询当前最大id
+				 */
+				if(type != '' && start != '' && end != '') {
+					console.log("进入保存");
+					context.executeSql('select max(id) mid from remindTable', [],
+						/**
+						 * 执行成功
+						 * @param {Object} tx
+						 * @param {Object} result
+						 */
+						function(tx, result) {
+							var id = (result.rows.item(0).mid) ? result.rows.item(0).mid : 0;
+							console.log(id + ',' + type + ',' + start + ',' + end+','+localStorage.patientId);
+							context.executeSql('INSERT INTO remindTable (id,start,end,type,patientId) VALUES (?,?,?,?,?)', [(id + 1), start, end, type,localStorage.patientId],
+								function(tx, result) {
+									console.log("成功插入数据");
+									/*----------*/
+								//	mui.init();
+									mui.openWindow({
+									url:'../../Nav.html',
+									id:'Nav.html',
+									}
+									);
+									/*----------*/
+									//window.location.href='../../index.html';
+								},
+								function(tx, error) {
+									console.log("插入数据失败");
+								}
+							);
+						},
+						/**
+						 * 执行失败
+						 * @param {Object} tx
+						 * @param {Object} error
+						 */
+						function(tx, error) {
+							console.log("查询最大Id值失败");
+						}
+					);
+				}
+			});
+		}
+	</script>
+
+</html>

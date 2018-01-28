@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">坐诊医生</h1>
+			
+		</header>
+		<div class="mui-content" id="pullrefresh">
+			<ul class="mui-table-view mui-table-view-chevron" id="listUl">
+				<!--<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis'>电子病历</p>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script>
+			document.getElementById('Upload').addEventListener('tap', function() {
+				//打开关于页面
+				mui.openWindow({
+					url: 'Upload.html',
+					id: 'Upload',
+				});
+			});
+		</script>
+		<!--服药记录下拉刷新-->
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					++count;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui.ajax(ajaxUrl + '/patientAPP/sputumExamination_zuoZhenDoctor.action?flag=' + count+'&id='+localStorage.CHSCID, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						success: function(data) {
+							if(data.length == 0) //数据为空时什么都不执行  
+							{
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //没有数据阻止访问服务器
+								plus.nativeUI.toast("没有更多数据了！", {
+									duration: "short"
+								});
+							} else {
+								var str = "";
+								var obj = document.getElementById("listUl");
+								for(var i = 0; i < data.length; i++) {
+
+									str +=
+										"<li class=\"mui-table-view-cell mui-media\" onclick=\"details('"+data[i][0]+"','"+data[i][1]+"','"+data[i][2]+"')\">" +
+										"					<a class=\"mui-navigate-right\">" +
+										"						<div class=\"mui-media-body\">" +
+										"							<p class='mui-ellipsis'>坐诊医生："+data[i][1]+"</p>" +
+										"							<p class='mui-ellipsis'>坐诊时间："+data[i][2]+"</p>" +
+										"						</div>" +
+										"					</a>" +
+										"				</li>";
+								}
+								obj.innerHTML = obj.innerHTML + str;
+							}
+						}
+					});
+				}, 1500);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			function details(beInClinicId, doctorName,zuoZhenTime) {
+				mui.openWindow({
+					url: 'Upload.html',
+					id: 'Upload.html',
+					extras: {
+						beInClinicId: beInClinicId,
+						doctorName: doctorName,
+						zuoZhenTime: zuoZhenTime,
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

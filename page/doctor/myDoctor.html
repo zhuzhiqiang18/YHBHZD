@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			.touxiang {
+				border-radius: 30px;
+			}
+			
+			.name {
+				font-size: 15px;
+				display: inline-block;
+				line-height: 20px;
+			}
+			
+			.title {
+				font-size: 13px;
+				display: block;
+				line-height: 20px;
+				color: #8f8f94;
+			}
+			
+			.today {
+				font-size: 13px;
+				display: inline-block;
+				line-height: 13px;
+				color: #8f8f94;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的医生</h1>
+		</header>
+		<div class="mui-content" id="pullrefresh">
+			<ul class="mui-table-view" id="listUl">
+				<!--<li class="mui-table-view-cell mui-media" id="IInformation-AllCircle-AllUpload">
+					<a href="#">
+						<img class="mui-media-object mui-pull-left touxiang" id="imgPath" src="../images/cbd.jpg" style="height: 41px;max-width:41px;">
+						<div class="mui-media-body">
+							<span class="name">红人馆</span>
+							<span class="mui-pull-right today"></span>
+							<span class="title">最美女神，最火红人，都在这里</span>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+		<script type="text/javascript">
+			/*document.getElementById('IInformation-AllCircle-AllUpload').addEventListener('tap', function() {
+									  					 //打开关于页面
+									 			 		mui.openWindow({
+									    				url: 'Information-AllCircle-AllUpload.html', 
+									    				id:'IInformation-AllCircle-AllUpload',
+									  				});
+												});*/
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					++count;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui.ajax(ajaxUrl + '/patientAPP/patientAPP_myDoctor.action?id=' + localStorage.patientId, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						success: function(data) {
+							if(data.length == 0) //数据为空时什么都不执行  
+							{
+								plus.nativeUI.toast("服务器异常！", {
+									duration: "short"
+								});
+							} else {
+	var str = null;
+	mui.ajax(ajaxUrl + '/chat_getChatList.action?receiveId=P' + localStorage.patientId, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'post', //HTTP请求类型
+		success: function(result) {
+			if(result.length == 0) //数据为空时什么都不执行  
+			{} else {
+				str = "<li class=\"mui-table-view-cell mui-media\" id=\"IInformation-AllCircle-AllUpload\">\n" +
+					"					<a href=\"#\" onclick=\"openChatDetail(" + data[0][3] + ",'" + data[0][0] + "','" + data[0][2] + "')\">\n" +
+					"						<img class=\"mui-media-object mui-pull-left touxiang\" id=\"imgPath\" src=\"" + imgPath + data[0][2] + "\" style=\"height: 41px;max-width:41px;\">\n" +
+					"						<div class=\"mui-media-body\">\n" +
+					"							<span class=\"name\">" + data[0][0] + "</span>\n" +
+					"							<span class=\"mui-pull-right today\"></span>\n" +
+					"							<span class=\"title\">" + data[0][1] + "</span>\n" +
+					"<p class=\"mui-ellipsis\">" +
+					"<span class=\"mui-badge mui-badge-danger mui-pull-right\" id=\"xiaoxi\">" + result[0][4] + "</span>" +
+					"</p>" +
+					"						</div>\n" +
+					"					</a>\n" +
+					"				</li>"
+
+			}
+			document.getElementById("listUl").innerHTML = str;
+		}
+		
+
+	});
+							}
+
+						}
+					});
+					1500
+				});
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			function openChatDetail(patientIdT, patientName, patientImgPathT) {
+				localStorage.DID = patientIdT;
+				localStorage.DNAME = patientName;
+				localStorage.DImgPath = patientImgPathT;
+				mui.openWindow({
+					url: 'ChatDetail.html'
+						//						id: 'MySchedule-BeInClinic.html'
+				})
+			}
+		</script>
+	</body>
+
+</html>

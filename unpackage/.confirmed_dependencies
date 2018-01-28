@@ -1,0 +1,769 @@
+{
+	"page/HealthyCenter/HealhyCenter.html": {
+		"resources": [
+			"images/doctoravatar_05.png",
+			"images/doctoravatar_03.png",
+			"img/icon_ehr_tool_glucose.png",
+			"img/self_item_symptoms_icon.png",
+			"images/doctoravatar_02.png",
+			"images/doctoravatar_01.png",
+			"img/icon_ehr_tool_heart_rate.png",
+			"img/self_item_drug_icon.png",
+			"img/jkq_rmtz.png"
+		],
+		"refer": [
+			"page/Main/Myself.html",
+			"page/HealthyCenter/yaopinku.html",
+			"page/HealthyCenter/jibingku.html",
+			"page/HealthyCenter/HealthyPlan.html",
+			"page/HealthyCenter/HealthyTest.html",
+			"page/HealthyCenter/DoctorDetails.html",
+			"page/HealthyCenter/HealthyCenter-MyDoctor.html",
+			"page/HealthyCenter/HealthyCenter-MoreIndex-AllDoctor.html"
+		]
+	},
+	"Nav.html": {
+		"resources": [
+			"page/Main/Main.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"page/UI/index.html",
+			"page/UI/main.html"
+		],
+		"refer": [
+			"page/HealthyCenter/HealhyCenter.html",
+			"page/Market/Market.html",
+			"page/HealthyCircle/HealthyCircle.html",
+			"page/Main/Main.html",
+			"page/UI/index.html",
+			"page/map/maps.html",
+			"page/personalCenter/Myself.html",
+			"page/UI/main.html",
+			"page/recuperationCenter/HealhyCenter.html",
+			"page/zixun/HealthyCircle-A-zixun.html"
+		]
+	},
+	"index.html": {
+		"resources": [
+			"Nav.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"Nav.html"
+		]
+	},
+	"page/Market/Market.html": {
+		"resources": [
+			"img/menu_bg_07.png",
+			"images/cbd.jpg",
+			"images/muwu.jpg",
+			"images/yuantiao.jpg",
+			"images/shuijiao.jpg"
+		],
+		"refer": []
+	},
+	"page/HealthyCircle/HealthyCircle.html": {
+		"resources": [
+			"page/HealthyCircle/HealthyCircle-A-guanzhu.html",
+			"img/icon_bell_red.png",
+			"img/news_qunliao.png",
+			"img/sy_my_icon.png"
+		],
+		"refer": [
+			"page/HealthyCircle/HealthyCircle-A-guanzhu.html"
+		]
+	},
+	"page/Main/Main.html": {
+		"resources": [
+			"img/news_qunliao.png",
+			"images/cbd.jpg",
+			"img/question_icon_doctor.png",
+			"images/muwu.jpg",
+			"images/yuantiao.jpg",
+			"images/banner1.jpg",
+			"img/yszy_hpl.png",
+			"images/banner3.jpg",
+			"images/shuijiao.jpg",
+			"images/jtys_head.png",
+			"img/sy_my_icon.png",
+			"img/yszy_hds.png",
+			"images/doctoravatar_05.png",
+			"images/doctoravatar_03.png",
+			"images/doctoravatar_02.png",
+			"images/doctoravatar_01.png"
+		],
+		"refer": [
+			"page/Main/Message.html",
+			"page/Main/Myself.html"
+		]
+	},
+	"page/UI/index.html": {
+		"resources": [
+			"js/mui.js",
+			"js/calendar.js",
+			"css/calendar.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/common.js",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"page/UI/barcode_scan.html",
+			"page/UI/MyClinic-Date.html"
+		]
+	},
+	"page/Main/Myself.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/UI/barcode_scan.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css",
+			"js/ServiceUrl.js",
+			"js/mui.js",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"page/doctor/doctor-QRCode.html"
+		]
+	},
+	"page/personalCenter/Myself.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/common.js"
+		],
+		"refer": [
+			"page/Other/ReLogin.html",
+			"page/personalCenter/Myself-details.html",
+			"page/takeMedicine/List.html",
+			"page/sputumExamination/List.html",
+			"page/medicalHistory/medicalHistory.html",
+			"page/MedicalRecords/List.html"
+		]
+	},
+	"page/map/maps.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.indexedlist.css",
+			"js/mui.indexedlist.js",
+			"js/ServiceUrl.js",
+			"js/mui.indexedlist2.js"
+		],
+		"refer": [
+			"page/map/maps_map.html"
+		]
+	},
+	"page/HealthyCenter/yaopinku.html": {
+		"resources": [
+			"css/mui.indexedlist.css",
+			"js/mui.indexedlist.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/HealthyCenter/jibingku.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/UI/MyClinic-Date.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/mui.picker.min.js"
+		],
+		"refer": [
+			"index.html",
+			"page/UI/main.html",
+			"Nav.html"
+		]
+	},
+	"page/Other/Login.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"index.html",
+			"Nav.html"
+		],
+		"refer": [
+			"index.html",
+			"page/UI/main.html",
+			"Nav.html"
+		]
+	},
+	"page/UI/main.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/calendar.js",
+			"css/calendar.css",
+			"js/ServiceUrl.js"
+		],
+		"refer": [
+			"page/UI/MyClinic-Date.html",
+			"page/UI/webview_mask_side.html",
+			"page/UI/barcode_scan.html"
+		]
+	},
+	"page/HealthyCenter/HealthyTest.html": {
+		"resources": [
+			"images/yuantiao.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/Other/ReLogin.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"index.html",
+			"Nav.html"
+		]
+	},
+	"page/UI/webview_mask_side.html": {
+		"resources": [
+			"js/mui.picker.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/Myself-details.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/common.js"
+		],
+		"refer": [
+			"index.html",
+			"page/personalCenter/updateBirthday.html",
+			"page/personalCenter/updateName.html",
+			"page/personalCenter/updateSex.html",
+			"page/personalCenter/updatePhone.html",
+			"page/personalCenter/updateNation.html",
+			"page/personalCenter/updateJob.html",
+			"page/personalCenter/updateEmail.html",
+			"page/personalCenter/updatePostalCode.html",
+			"page/personalCenter/updateAddress.html",
+			"page/personalCenter/updateJobAddress.html",
+			"page/personalCenter/updatePassword.html",
+			"page/personalCenter/Myself-QRCode.html"
+		]
+	},
+	"page/HealthyCenter/HealthyPlan.html": {
+		"resources": [
+			"images/yuantiao.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateBirthday.html": {
+		"resources": [
+			"js/mui.picker.min.js",
+			"css/mui.picker.min.css",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/ServiceUrl.js"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateName.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"page/personalCenter/Myself-details.html"
+		]
+	},
+	"page/personalCenter/updateSex.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updatePhone.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateNation.html": {
+		"resources": [
+			"css/mui.picker.min.css",
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateJob.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateEmail.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updatePostalCode.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateAddress.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updateJobAddress.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css"
+		],
+		"refer": []
+	},
+	"page/personalCenter/updatePassword.html": {
+		"resources": [
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"page/Other/ReLogin.html"
+		]
+	},
+	"page/HealthyCenter/DoctorDetails.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/Main/Chat.html"
+		]
+	},
+	"page/HealthyCenter/HealthyCenter-MyDoctor.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/takeMedicine/Upload.html": {
+		"resources": [
+			"images/iconfont-tianjia.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/common.js",
+			"js/ServiceUrl.js",
+			"images/start.png"
+		],
+		"refer": []
+	},
+	"page/takeMedicine/List.html": {
+		"refer": [
+			"page/takeMedicine/Upload.html",
+			"page/takeMedicine/UploadDetails.html"
+		],
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/ServiceUrl.js",
+			"page/takeMedicine/UploadDetails.html",
+			"images/start.png"
+		]
+	},
+	"page/takeMedicine/UploadDetails.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"images/muwu.jpg",
+			"img/yszy_hpl.png",
+			"img/yszy_hds.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"img/yszy_hpl_2.png",
+			"js/common.js",
+			"page/takeMedicine/List.html",
+			"js/ServiceUrl.js",
+			"images/start.png",
+			"js/demo_videoPlaySimple.js",
+			"js/zepto.min.js"
+		],
+		"refer": [
+			"page/takeMedicine/List.html",
+			"page/takeMedicine/camera_image.html",
+			"page/takeMedicine/camera_video.html"
+		]
+	},
+	"page/takeMedicine/camera_image.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css"
+		],
+		"refer": []
+	},
+	"page/map/maps_map.html": {
+		"resources": [
+			"js/common.js",
+			"js/immersed.js",
+			"page/map/maps_map_sub.html",
+			"css/common.css",
+			"js/mui.min.js",
+			"js/ServiceUrl.js"
+		],
+		"refer": [
+			"page/map/maps_map_sub.html"
+		]
+	},
+	"page/HealthyCenter/HealthyCenter-MoreIndex-AllDoctor.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/HealthyCenter/DoctorDetails.html"
+		]
+	},
+	"page/Main/Chat.html": {
+		"resources": [
+			"js/mui.imageViewer.js",
+			"css/mui.imageviewer.css",
+			"js/arttmpl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/recuperationCenter/HealhyCenter.html": {
+		"resources": [
+			"img/icon_ehr_tool_glucose.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"img/self_item_symptoms_icon.png",
+			"css/mui.min.css",
+			"img/self_item_drug_icon.png",
+			"img/jkq_rmtz.png",
+			"img/icon_ehr_tool_heart_rate.png"
+		],
+		"refer": [
+			"page/sputumExamination/Upload.html",
+			"page/takeMedicine/List.html",
+			"page/eprescribing/MyPatient-ElectronicPrescribing.html",
+			"page/medicalHistory/medicalHistory.html",
+			"page/sputumExamination/chsc.html",
+			"page/doctor/myDoctor.html",
+			"page/Main/Chat.html"
+		]
+	},
+	"page/sputumExamination/List.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/sputumExamination/UploadDetails.html",
+			"page/sputumExamination/Upload.html"
+		]
+	},
+	"page/sputumExamination/UploadDetails.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/sputumExamination/Upload.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"images/iconfont-tianjia.png",
+			"js/mui.picker.min.js",
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"page/sputumExamination/List.html"
+		]
+	},
+	"page/eprescribing/MyPatient-ElectronicPrescribing.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/eprescribing/ElectronicPrescribingDetails.html"
+		]
+	},
+	"page/eprescribing/ElectronicPrescribingDetails.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/medicalHistory/medicalHistory.html": {
+		"refer": [
+			"page/medicalHistory/medicalHistoryDetails.html"
+		],
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"page/MedicalRecords/UploadDetails.html": {
+		"resources": [
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/MedicalRecords/List.html": {
+		"refer": [
+			"page/MedicalRecords/UploadDetails.html"
+		],
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"page/zixun/HealthyCircle-A-zixun.html": {
+		"resources": [
+			"js/mui.pullToRefresh.js",
+			"images/cbd.jpg",
+			"js/mui.pullToRefresh.material.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/common.js",
+			"js/ServiceUrl.js",
+			"css/mui.picker.min.css"
+		],
+		"refer": [
+			"page/zixun/InformationDetails.html"
+		]
+	},
+	"page/zixun/InformationDetails.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/ServiceUrl.js",
+			"img/yszy_hpl.png",
+			"img/yszy_hds.png",
+			"img/yszy_hpl_2.png"
+		],
+		"refer": [
+			"page/zixun/UploadDetails.html"
+		]
+	},
+	"page/zixun/UploadDetails.html": {
+		"resources": [
+			"images/cbd.jpg",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/ServiceUrl.js"
+		],
+		"refer": []
+	},
+	"page/sputumExamination/chsc.html": {
+		"refer": [
+			"page/sputumExamination/doctorList.html"
+		],
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.indexedlist2.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.indexedlist.css",
+			"js/mui.indexedlist.js"
+		]
+	},
+	"page/sputumExamination/doctorList.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/sputumExamination/Upload.html",
+			"page/sputumExamination/UploadDetails.html"
+		]
+	},
+	"page/medicalHistory/medicalHistoryDetails.html": {
+		"resources": [
+			"js/common.js"
+		],
+		"refer": []
+	},
+	"page/personalCenter/Myself-QRCode.html": {
+		"resources": [
+			"js/qrious.js",
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/jquery.js",
+			"js/jquery.qrcode.min.js",
+			"js/qrcode.min.js"
+		],
+		"refer": []
+	},
+	"page/doctor/doctor-QRCode.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/ServiceUrl.js",
+			"js/common.js",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"page/doctor/myDoctor.html"
+		]
+	},
+	"page/doctor/myDoctor.html": {
+		"resources": [
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"page/doctor/ChatDetail.html"
+		]
+	},
+	"page/doctor/ChatDetail.html": {
+		"resources": [
+			"js/mui.imageViewer.js",
+			"css/mui.imageviewer.css",
+			"js/arttmpl.js",
+			"js/ServiceUrl.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"page/takeMedicine/camera_video.html": {
+		"resources": [
+			"css/common.css",
+			"js/common.js"
+		]
+	}
+}

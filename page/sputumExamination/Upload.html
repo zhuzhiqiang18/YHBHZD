@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			* {
+				font-family: "微软雅黑";
+			}
+			
+			.mui-switch.mui-active:before {
+				content: '是';
+			}
+			
+			.mui-switch:before {
+				content: '否';
+				color: #FFFFFF;
+			}
+			
+			.mui-switch {
+				background-color: #FF5053;
+				border: 1px solid #FF5053;
+				margin-bottom: 5px;
+			}
+			
+			.free {
+				display: inline-block;
+				margin-top: 4px;
+			}
+			
+			.mui-btn {
+				font-size: 16px;
+				padding: 0px;
+				width: 100px;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			
+			.mui-ellipsis {
+				font-size: 15px;
+			}
+			
+			.Add {
+				text-align: center;
+			}
+			
+			.pd {
+				padding-top: 10px;
+				padding-bottom: 5px;
+			}
+			
+			.free1 {
+				display: inline-block;
+				float: right;
+				color: #4CD964
+			}
+			
+			.free0 {
+				display: inline-block;
+				float: right;
+				color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">预约查痰</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" onclick="save();">预约</button>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media pd">
+					<a href="#">
+						<div class="mui-media-body">
+							<span>预约类型：</span>
+							<span id='result'></span>
+							<button id="demo" class="btn mui-btn mui-btn-block mui-pull-right">选择</button>
+						</div>
+					</a>
+				</li>
+				
+				<li class="mui-table-view-cell mui-media" id="dateOfBirth">
+					
+						<div class="mui-media-body">
+							<span>预约时间：<p class='mui-ellipsis' id="result1"></p></span>
+						</div>
+					
+				</li>
+				<li class="mui-table-view-cell mui-media" id="phone">
+				
+						<div class="mui-media-body">
+							<span>预约时间：<p class='mui-ellipsis' id="doctor"></p></span>
+						</div>
+					
+				</li>
+				
+			</ul>
+			<br />
+			
+		</div>
+
+		<div id='result' class="ui-alert"></div>
+	</body>
+	
+	<script src="../../js/mui.picker.min.js"></script>
+	<script>
+		(function($) {
+			$.init();
+			var result = $('#result')[0];
+			var btns = $('#demo');
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					var dtpicker = new mui.PopPicker();
+					dtpicker.setData([{
+						value: '复查',
+						text: '复查'
+					}, {
+						value: '查痰',
+						text: '查痰'
+					}]);
+					dtpicker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母），用法同年
+						 */
+						result.innerText = rs[0].value;
+					});
+				}, false);
+			});
+		})(mui);
+	</script>
+	<script type="text/javascript" src="../../js/ServiceUrl.js"></script>
+	<script>
+	var beInClinicId=null;
+	mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				document.getElementById("result1").innerHTML =self.zuoZhenTime;
+				document.getElementById("doctor").innerHTML = self.doctorName;
+				beInClinicId=self.beInClinicId;
+			});
+		db = openDatabase('fjhDB', '1.0', 'fjhDB', 2 * 1024 * 1024);
+		function save() {
+			console.log("保存日程");
+			var appointmentTime = document.getElementById('result1').innerHTML;
+			var examineType = document.getElementById('result').innerHTML;
+			if(appointmentTime != '' && examineType != '') {
+			mui.ajax(ajaxUrl + '/patientAPP/sputumExamination_addSputumExamination.action?appointmentTime=' + appointmentTime + '&id=' + localStorage.patientId+'&examineType='+examineType+'&beInClinicId='+beInClinicId, {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					/**
+			 * 打开数据库
+			 */
+			db.transaction(function(context) {
+				/**
+				 * 判断数据了是否存在 不存在则创建
+				 */
+				context.executeSql('CREATE TABLE IF NOT EXISTS remindTable (id unique, start,end,type,patientId)', [], function(tx, result) {
+						//alert('创建remindTable表成功');
+					},
+					function(tx, error) {
+						//	alert('创建remindTable表失败:' + error.message);
+					});
+				//获取提醒日程属性
+				var start = document.getElementById('result1').innerHTML;
+				var reg=/[\u4E00-\u9FA5]/g;
+				var end=start.replace(reg,'')+' 23:59';
+		        start=start.replace(reg,'')+' 00:00';
+					//主键
+				var id = null;
+				/**
+				 * 查询当前最大id
+				 */
+					context.executeSql('select max(id) mid from remindTable', [],
+						/**
+						 * 执行成功
+						 * @param {Object} tx
+						 * @param {Object} result
+						 */
+						function(tx, result) {
+							var id = (result.rows.item(0).mid) ? result.rows.item(0).mid : 0;
+							context.executeSql('INSERT INTO remindTable (id,start,end,type,patientId) VALUES (?,?,?,?,?)', [(id + 1), start, end, '查痰',localStorage.patientId],
+								function(tx, result) {
+									console.log("成功插入数据");
+									/*----------*/
+									mui.init();
+									mui.openWindow({
+									url:'List.html',
+									id:'List.html',
+									}
+									);
+									/*----------*/
+									//window.location.href='../../index.html';
+								},
+								function(tx, error) {
+									console.log("插入数据失败");
+								}
+							);
+						},
+						/**
+						 * 执行失败
+						 * @param {Object} tx
+						 * @param {Object} error
+						 */
+						function(tx, error) {
+							console.log("查询最大Id值失败");
+						}
+					);
+				
+			});
+				}
+			});
+			
+		}
+			}
+	</script>
+
+</html>
